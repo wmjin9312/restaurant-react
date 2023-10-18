@@ -138,7 +138,7 @@ export default function Layout(props: any) {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            { props.children }
+
           </Container>
         </Box>
       </Box>
