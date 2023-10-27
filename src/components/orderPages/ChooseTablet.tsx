@@ -30,14 +30,12 @@ export default function ChooseTablet() {
 
   const [searchParams] = useSearchParams();
 
-
   useEffect(() => {
     fetchData();
     if (searchParams.get('reset') === 'true') {
       resetData();
     }
   }, [resetData]);
-
 
   return (
     <div>             

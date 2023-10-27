@@ -12,8 +12,6 @@ export default function ChooseMenu(children) {
   const { chosenData, setChosenData } = useContext(MainContext);
   const [resetMenu, setResetMenu] = useState(false);
   
-
-
   const toggleSelected = (selectItem) => {
 
     setSelected((current) => {
@@ -34,19 +32,14 @@ export default function ChooseMenu(children) {
           dishes : newSelected, totalPrice: current.totalPrice + selectItem.price })
         )
       }
-
       return newSelected;
     });
   }
-
-  console.log(selected);
-
 
   const menuQuantity = (name) => {
     const selectedMenu = selected.find(item => item.name === name);
     return selectedMenu ? selectedMenu.quantity : 0;
   };
-
 
   const fetchData = async () => {
     try{
@@ -80,13 +73,10 @@ export default function ChooseMenu(children) {
       <div>{chosenData.totalPrice}</div>
       <div>- soup의 개수 : {menuQuantity('soup')} </div>
       <div>- salad의 개수 : {menuQuantity('salad')} </div>
-      
       <div>- steak의 개수 : {menuQuantity('steak')} </div>
       <div>- fish의 개수 : {menuQuantity('fish')} </div>
       <div>- coffee의 개수 : {menuQuantity('coffee')}</div>
       <div>- 총 금액 : {chosenData.totalPrice} </div>
-
-
 
       <Stack direction= "row" alignItems="center" justifyContent="center">
         <Link to='/ChooseCook'>

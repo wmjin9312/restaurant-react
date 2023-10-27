@@ -33,7 +33,6 @@ export default function ChooseCook() {
 
   }, []);
 
-
   return (
     <div>
       <h3>요리사 선택</h3>

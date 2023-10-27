@@ -9,7 +9,6 @@ export default function OrdersReport() {
     resetData();
   }, [])
 
-
   return (
     <div>OrderReport</div>
   )

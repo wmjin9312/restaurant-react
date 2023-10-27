@@ -25,7 +25,6 @@ export default function Information() {
     fetchData('cooks', setCooksData);
     fetchData('dishes', setDishesData);
     fetchData('tablets', setTabletsData);
-
     resetData();
   }, [])
 

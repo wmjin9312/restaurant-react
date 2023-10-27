@@ -23,13 +23,12 @@ export default function CheckOrders() {
       alert('주문이 완료되었습니다');
       resetData();
       
-
     } catch (error){
       console.error('요청 실패');
     }
   }
 
-  const menuInfo = (
+  const menuInfo = (chosenData) => (
     <ul>
       {chosenData && chosenData.dishes && chosenData.dishes.map((item, index) => (
         <li key={index}>
@@ -39,12 +38,10 @@ export default function CheckOrders() {
     </ul>
   )
 
-  const paperStyle = {
+  const paperStyle = { 
     width: 320,
     margin: '0 auto', // 가운데 정렬을 위한 스타일 추가
   };
-  
-  console.log(chosenData)
   
   return (
     <div>
@@ -58,7 +55,7 @@ export default function CheckOrders() {
           </MenuItem>
           <Divider />
           <MenuItem>
-            <ListItemText>{menuInfo}</ListItemText>
+            <ListItemText>{menuInfo(chosenData)}</ListItemText>
           </MenuItem>
           <Divider />
           <MenuItem>
