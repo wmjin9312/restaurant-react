@@ -1,37 +1,52 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { MainContext } from '../context/ChosenContextProvider';
 
-
-export default function ChooseMenu() {
+export default function ChooseMenu(children) {
 
   const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const { chosenData, setChosenData } = useContext(MainContext);
+  const [resetMenu, setResetMenu] = useState(false);
+  
 
 
-  const toggleSelected = (item) => {
+  const toggleSelected = (selectItem) => {
+
     setSelected((current) => {
       const newSelected = [...current];
-      const selectedItem = newSelected.find((selectItem) => selectItem.id === item.id);
+      const selectedItem = newSelected.find((item) => item.id === selectItem.id);
 
       if (selectedItem) {
-        
         selectedItem.quantity++;
-        setTotalPrice(prevTotalPrice => prevTotalPrice + selectedItem.price)
-      } else {
-        
-        newSelected.push({ ...item, quantity: 1, dishId:item.id });
-        setTotalPrice(prevTotalPrice => prevTotalPrice + item.price)
-      }
-      
+        setSelected(selectItem);
 
+        setChosenData(current => ({ ...chosenData, dishes:newSelected, totalPrice: current.totalPrice + selectItem.price }));
+      } else {
+        newSelected.push({ ...selectItem, quantity: 1, dishId:selectItem.id });
+
+        setSelected(newSelected);
+        setChosenData(current => ({
+          ...chosenData,
+          dishes : newSelected, totalPrice: current.totalPrice + selectItem.price })
+        )
+      }
 
       return newSelected;
     });
   }
+
+  console.log(selected);
+
+
+  const menuQuantity = (name) => {
+    const selectedMenu = selected.find(item => item.name === name);
+    return selectedMenu ? selectedMenu.quantity : 0;
+  };
+
 
   const fetchData = async () => {
     try{
@@ -42,11 +57,9 @@ export default function ChooseMenu() {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
-
-
+  }, []);
 
   return (
     <div>
@@ -64,11 +77,14 @@ export default function ChooseMenu() {
         }
       </Stack>
 
-      <div>{totalPrice}</div>
-      <div>- soup의 개수 : x </div>
-      <div>- salad의 개수 : x </div>
-      <div>- steak의 개수 : x </div>
-      <div>- 총 금액 : {totalPrice} </div>
+      <div>{chosenData.totalPrice}</div>
+      <div>- soup의 개수 : {menuQuantity('soup')} </div>
+      <div>- salad의 개수 : {menuQuantity('salad')} </div>
+      
+      <div>- steak의 개수 : {menuQuantity('steak')} </div>
+      <div>- fish의 개수 : {menuQuantity('fish')} </div>
+      <div>- coffee의 개수 : {menuQuantity('coffee')}</div>
+      <div>- 총 금액 : {chosenData.totalPrice} </div>
 
 
 

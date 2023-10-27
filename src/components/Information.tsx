@@ -1,12 +1,15 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import BasicTable from './table/BasicTable';
+import { MainContext } from './context/ChosenContextProvider';
 
 export default function Information() {
 
   const [cooksData, setCooksData] = useState([]);
   const [dishesData, setDishesData] = useState([]);
   const [tabletsData, setTabletsData] = useState([]);
+
+  const { resetData }  = useContext(MainContext);
 
   const fetchData = async (endpoint, setData) => {
     try {                                     
@@ -22,6 +25,8 @@ export default function Information() {
     fetchData('cooks', setCooksData);
     fetchData('dishes', setDishesData);
     fetchData('tablets', setTabletsData);
+
+    resetData();
   }, [])
 
   return (

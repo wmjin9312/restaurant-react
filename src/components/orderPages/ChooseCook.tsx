@@ -1,30 +1,37 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState,useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { MainContext } from '../context/ChosenContextProvider';
 
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
 export default function ChooseCook() {
   const [data, setData] = useState([]);
-  const [selected, setSelected] = useState();
+  const [selectedCook, setSelectedCook] = useState(null);
+  const {chosenData, setChosenData} = useContext(MainContext);
+  const [resetCook, setResetCook] = useState(false);
 
   const toggleSelected = (idx) => {
-    setSelected(idx);
-  }
+    const cookArr = data.filter(item => item.id === idx);
+    setChosenData({ ...chosenData, cook: cookArr[0] }); // cook이라는 이름으로 context에 저장
+    setSelectedCook(idx);
+    }
+  
   const fetchData = async () => {
     try{
-      const {data} = await axios.get('cooks')
+      const {data} = await axios.get('cooks')  //post('URL', Object), get('URL', Object) Object로하면 쿼리를 넣을 수 있다.
       setData(data);
+      console.log(data)
     }catch (error){
       console.log(error)
     }
   } 
   
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
 
+  }, []);
 
 
   return (
@@ -35,7 +42,7 @@ export default function ChooseCook() {
           data.map((item) => (
             <Button
               key={item.id}
-              variant={selected === item.id ? 'contained' : 'outlined'} // 확실하게 조건 확인! 
+              variant={chosenData.cook.id === item.id ? 'contained' : 'outlined'} // 확실하게 조건 확인! 
               onClick={() => { toggleSelected(item.id) }}>  {/* 매개변수 넣으려면 익명함수  */}
               {item.lastName + ' ' + item.firstName}
             </Button>

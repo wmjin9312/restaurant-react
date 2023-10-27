@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton component={Link} to="/homes">
+    <ListItemButton component={Link} to="/">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
@@ -33,6 +33,12 @@ export const mainListItems = (
         <CheckIcon />
       </ListItemIcon>
       <ListItemText primary="Orders Management" />
+    </ListItemButton>
+    <ListItemButton component={Link} to="/ordersreport">
+      <ListItemIcon>
+        <CheckIcon />
+      </ListItemIcon>
+      <ListItemText primary="Orders Report" />
     </ListItemButton>
   </React.Fragment>
 );
